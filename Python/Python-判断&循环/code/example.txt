@@ -1,0 +1,4 @@
+Hello Python.
+Today is my second day of studying.
+
+今天是2025年0212

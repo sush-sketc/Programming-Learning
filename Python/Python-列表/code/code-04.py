@@ -80,12 +80,49 @@ print(numbers)
 自定义关键字排序
 """
 words = ["apple", "banana", "orange", "kiwi"]
-#从下标为1的元素开始排序
+# 从下标为1的元素开始排序
 words.sort(key=lambda x: x[1])
 print(words)
-#从下标为2的元素排序，
+# 从下标为2的元素排序，
 words.sort(key=lambda x: x[2])
 print(words)
-#从末尾元素进行排序
+# 从末尾元素进行排序
 words.sort(key=lambda x: x[-1])
 print(words)
+
+"""
+使用lambda对单词最后一个字母排序
+"""
+words = ["apple", "banana", "orange", "kiwi"]
+words.sort(key=lambda x: x[-1])
+print(words)
+
+"""
+sorted()方法
+"""
+numbers = [4, 6, 3, 1, 99, 23, 45, 27]
+sorted_numbers = sorted(numbers)
+print(sorted_numbers)
+print(numbers)
+
+"""
+使用reverse参数进行降序排序
+"""
+numbers = [1, 34, 6, 87, 3, 0, 9]
+sorted_number_desc = sorted(numbers, reverse=True)
+print(sorted_number_desc)
+
+"""
+利用key参数实现自定义排序
+"""
+words = ["apple", "banana", "orange", "kiwi"]
+sorted_words = sorted(words, key=len)
+print(sorted_words)
+
+"""
+使用operator
+"""
+import operator
+data = [(1,5),(3,2),(7,8),(4,1)]
+sourted_data =[sorted(data,key=operator.itemgetter(1))]
+print(sourted_data)

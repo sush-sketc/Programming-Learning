@@ -1,8 +1,14 @@
 
-## Rocky9 源码编译安装MMySQL8
-<font style="background:#F6E1AC;color:#664900">rocky-linux</font>      <font style="background:#DBF1B7;color:#2A4200">MySQL8.0</font>
+#   Rocky9 源码编译安装MMySQL8
 
-### 1. 系统信息
+==rocky-linux==     ==MySQL8.0==    ==SQL==
+
+# 1. 环境描述
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">系统信息</font> </summary>
+
+
 ```plantuml
 ARCH:  			5.14.0-503.19.1.el9_5.aarch64
 
@@ -10,12 +16,15 @@ CPU-INFO:		processor : 4
 
 FREE-INFO:		8G
 ```
+</details>
 
-### 2. 系统配置
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">系统配置</font> </summary>
+
+> [!NOTE]
 > `pam_limits.os`模块将`ulimit`限制，`nice`优先级和同时登陆回会数限制应用于用户登陆会话，此配置文件为`limits.conf`- `pam_limits`模块的配置文件
 
 ```sh
-
 if [ $(cat /etc/security/limits.conf |grep "mysql" |wc -l) -lt 1 ];then sudo tee -a /etc/security/limits.conf > /dev/null <<"ROF"
 * soft nproc 65536
 * hard nproc 65536
@@ -27,9 +36,6 @@ mysql soft nofile 65536
 mysql hard nofile 65536
 ROF
 fi
-```
-
-```sh
 
 if [ -e /etc/security/limits.d/90-nproc.conf ];then \
   if [ $( cat /etc/security/limits.d/90-nproc.conf  | grep "mysql" | wc -l )  -lt 1 ] ;then \
@@ -38,6 +44,14 @@ mysql       soft    nproc     unlimited
 EOF
   fi
 fi
+```
+</details>
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">依赖工具</font> </summary>
+
+```sh
+cmake bison openssl openssl-devel ncurses tar gcc-toolset-12-gcc-c++ gcc-toolset-12 wget libtirpc rpcgen
 ```
 
 + `CMake`版本建议使用`GUN CMake 3.75`或更高版本，
@@ -50,14 +64,11 @@ fi
 + `bison 2.1`或更高版本.
 + <font style="color:#DF2A3F;">注意</font>⚠️：不再支持版本1，尽可能的使用最新版本的`bison`如果如果检查错误，请升级到更高版本，而不是恢复到早期版本.
 + <font style="color:#DF2A3F;">注意</font> ⚠️：本次使用官方自带boost版本进行编译，不需要额外进行配置.
-  
-所需依赖包`gcc`工具集
 
-```sh
-cmake bison openssl openssl-devel ncurses tar gcc-toolset-12-gcc-c++ gcc-toolset-12 wget libtirpc rpcgen
-```
+</details>
 
-### 3. 添加用户
+
+# 3. 添加用户
 
 ```sh
 

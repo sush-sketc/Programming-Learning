@@ -12,8 +12,8 @@ print(f"列表合并list1={list1},list2={list2},合并后{list1+list2}")
 ### 2. 使用`extend()`方法
 `extend()`方法用于将一个可迭代对象的元素添加到列表中，就地修改原列表，适用于需要在原列表上进行操作的场景
 ```python
-list1 =[1,2,3]
-list2=[4,5,6]
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
 list1.extend(list2)
 print(f"列表{list2}添加到列表{list1}中,添加后list1: {list1}")
 

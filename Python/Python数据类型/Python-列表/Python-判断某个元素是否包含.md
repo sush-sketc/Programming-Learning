@@ -3,7 +3,7 @@
 最基本的方法是使用成员运算符`in`和`not in`,这两个运算符能够快速判定一个元素是否存在于列表中
 ```python
 # 使用成员运算符
-my_list =[1,2,3,4,5]
+my_list = [1, 2, 3, 4, 5]
 
 # 判定元素是否存在
 element_to_ckeck = 3
@@ -13,7 +13,7 @@ else:
     print(f"{element_to_ckeck} 不存在于列表中")
 
 # 或者使用not in 判定不存在
-element_to_ckeck = 6 
+element_to_ckeck = 6
 if element_to_ckeck not in my_list:
     print(f"{element_to_ckeck} 不存在于列表中")
 else:

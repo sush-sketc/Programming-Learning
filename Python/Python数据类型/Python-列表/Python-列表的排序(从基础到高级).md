@@ -3,7 +3,7 @@
 ## 1.基础排序
 
 > [!TIP]
-> [示例代码](./code/code-04.py)
+> [示例代码](code/code-04.py)
 
 ### 1.1. 使用`sorted()`函数
 
@@ -213,28 +213,35 @@ print(words)
 </details>
 
 ### 4.2. 使用`lambda`函数
+
 通过`lambda`函数可以更灵活地低音排序规则，例如按单词的最后一个字母进行排序
+
 ```python
-words = ["apple","banana","orange","kiwi"]
+words = ["apple", "banana", "orange", "kiwi"]
 words.sort(key=lambda x: x[-1])
 print(words)
 ```
+
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>
 
 ```plantuml
 ['banana', 'apple', 'orange', 'kiwi']
 ```
+
 </details>
 
 ## 5. `sorted()`函数基本用法
+
 与`sort()`方法不同`sorted()`函数不会修改原始列表，而是返回一个新的排序列表，以下是`sorted()`函数基本示例
+
 ```python
-numbers =[4,6,3,1,99,23,45,27]
+numbers = [4, 6, 3, 1, 99, 23, 45, 27]
 sorted_numbers = sorted(numbers)
 print(sorted_numbers)
 print(numbers)
 ```
+
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>
 
@@ -242,60 +249,81 @@ print(numbers)
 [1, 3, 4, 6, 23, 27, 45, 99]
 [4, 6, 3, 1, 99, 23, 45, 27]
 ```
+
 </details>
 
 ## 6.`sorted()`高级用法
+
 ### 6.1 反向排序
+
 与`sort()`方法类似,`sorted()`方法也支持`reverse`参数，用于进行降序排序
+
 ```python
-numbers = [1,34,6,87,3,0,9]
-sorted_number_desc = sorted(numbers,reverse=True)
+numbers = [1, 34, 6, 87, 3, 0, 9]
+sorted_number_desc = sorted(numbers, reverse=True)
 print(sorted_number_desc)
 ```
+
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>
 
 ```plantuml
 [87, 34, 9, 6, 3, 1, 0]
 ```
+
 </details>
 
 ### 6.2. 自定义排序
+
 利用`key`参数，可以实现与`sort()`方法相似的自定义排序
+
 ```python
-words =["apple","banana","orange","kiwi"]
-sorted_words = sorted(words,key=len)
+words = ["apple", "banana", "orange", "kiwi"]
+sorted_words = sorted(words, key=len)
 print(sorted_words)
 ```
+
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>
 
 ```plantuml
 ['kiwi', 'apple', 'banana', 'orange']
 ```
+
 </details>
 
 ## 7. 使用`operato`模块
+
 `operato`模块提供了一些方便的函数，可用于更负载的排序操作，例如，按元组的第二个元素进行排序
+
 ```python
 import operator
-data = [(1,5),(3,2),(7,8),(4,1)]
-sourted_data =[sorted(data,key=operator.itemgetter(1))]
+
+data = [(1, 5), (3, 2), (7, 8), (4, 1)]
+sourted_data = [sorted(data, key=operator.itemgetter(1))]
 print(sourted_data)
 ```
+
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>
 
 ```plantuml
 [[(4, 1), (3, 2), (1, 5), (7, 8)]]
 ```
+
 </details>
 
 ## 8. 新比较和选择
+
 新能比较在选择使用`sort()`方法还是`sorted()`函数时至关重要，尤其在不同场景中
+
 ### 8.1. `sort()`方法性能
-`sort()`方法时一个原地排序方法，直接修改原始列表，因此在内存使用方面更为高效，它采用`Timsort`算法，结合了归并排序和插入排序的优点，对于大型数据集`sort()`方法
+
+`sort()`方法时一个原地排序方法，直接修改原始列表，因此在内存使用方面更为高效，它采用`Timsort`
+算法，结合了归并排序和插入排序的优点，对于大型数据集`sort()`方法
 通常表现得更出色，这是因为它避免了创建新的数据结构，直接在原有列表上进行排序，节省了额外的内存开销。
+
 ### 8.2. `sorted()`函数的性能
+
 `sorted()`函数创建一个新的已排序列表，不修改原始列表，因此在某些情况下更安全，但是，由于它需要额外的内存来存储新的列表，对于大型数据集可能会引起哪次开销较大的问题，特别时当
 原始数据集很大时，`sorted()`可能不如`sort()`方法效率高

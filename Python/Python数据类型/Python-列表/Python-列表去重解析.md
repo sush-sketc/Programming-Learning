@@ -1,22 +1,25 @@
 ## Python列表去重最全方法解析与实战案例
 
->[!TIP]
-> [参考代码](./code/code-05.py
+> [!TIP]
+> [参考代码](./code/code-05.py)
 
 在Python中，列表时非常常用的数据结构之一
 ### 1. 使用集合(set)
 集合`(set)`是一种无序且不重复的集合类型，因此利用集合去重是最简单的方法之一
+
 ```python
 def remove_duplicates(lst):
     """
     使用结合去重
     """
     return list(set(lst))
-#测试代码
-original_list = [1,2,2,3,3,4,5,6,6,0,0]
+
+
+# 测试代码
+original_list = [1, 2, 2, 3, 3, 4, 5, 6, 6, 0, 0]
 deduplicated = remove_duplicates(original_list)
-print("原始列表:",original_list)
-print("去重后列表:",deduplicated)
+print("原始列表:", original_list)
+print("去重后列表:", deduplicated)
 ```
 <details>
 <summary><font style="font-size: larger;color: bisque">output</font> </summary>

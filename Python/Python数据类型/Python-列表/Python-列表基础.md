@@ -13,7 +13,7 @@ empty_list = []
 ### 2. 列表的索引与切片
 列表中的元素是有序的，并且可以通过索引来访问，列表的索引从0开始，可以使用方括号`[]`和索引来获取元素，此外还可以使用切片来获取列表的子集
 ```python
-fruits = ["apple","banana","bcherry"]
+fruits = ["apple", "banana", "bcherry"]
 print(f"获取列表fruits的第一个元素: {fruits[0]} 索引为0")
 print(f"获取列表fruits的第二个元素: {fruits[1]} 索引为1")
 print(f"获取列表fruits的第三个元素: {fruits[2]} 索引为2")

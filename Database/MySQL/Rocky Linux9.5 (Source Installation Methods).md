@@ -1,8 +1,6 @@
 
 #   Rocky9 源码编译安装MMySQL8
 
-==rocky-linux==     ==MySQL8.0==    ==SQL==
-
 # 1. 环境描述
 
 <details open>
@@ -68,10 +66,8 @@ cmake bison openssl openssl-devel ncurses tar gcc-toolset-12-gcc-c++ gcc-toolset
 </details>
 
 
-# 3. 添加用户
-
+# 3. Add User
 ```sh
-
 if [ ! $(id -u "mysql") ]; then echo "mysql user is not exists for to created"; \
 /usr/sbin/groupadd mysql && /usr/sbin/useradd -g mysql -r -s /sbin/nologin -M mysql; \
 fi
@@ -82,7 +78,7 @@ fi
 > <font style="color:#74B602;">如果您的系统还没有用于运行</font><font style="color:#74B602;">[`mysqld`](https://dev.mysql.com/doc/refman/5.7/en/mysqld.html)</font><font style="color:#74B602;">用户和组，您可能需要创建它们。以下命令添加</font> <font style="color:#74B602;">`mysql`</font><font style="color:#74B602;">组和 </font><font style="color:#74B602;">`mysql`</font><font style="color:#74B602;">用户。您可能希望将用户和组命名为 而不是。如果是这样，请按照以下说明替换适当的名称。 useradd和 groupadd</font><font style="color:#74B602;">`mysql`</font><font style="color:#74B602;">的语法在不同版本的 Unix/Linux 上可能略有不同，或者它们可能具有不同的名称，例如 adduser和addgroup</font>
 >
 
-## 4. 目录规划 <a name="dir"></a>
+# 4. 目录规划 <a name="dir"></a>
 ```plantuml
 
 basedir             = /mnt/mysql/mysql-executable                  
@@ -104,7 +100,7 @@ sudo chown -R mysql:mysql /mnt/mysql/33061
 sudo chown -R mysql:mysql /var/log/mysql/
 ```
 
-### 5. 安装MySQL <a name="inst"></a>
+# 5. 安装MySQL <a name="inst"></a>
 
 Cmake选项说明
 
@@ -156,7 +152,7 @@ sudo make V=2 -j 2
 sudo make V=2 install
 ```
 
-### 6. 生成配置文件 <a name="conf"></a>
+# 6. 生成配置文件 <a name="conf"></a>
 
 + server
 
@@ -490,18 +486,19 @@ nice = 0
 
 ```
 
-### 7. 初始化数据库<a name="init"></a>
+# 7. 初始化数据库<a name="init"></a>
 
-:::info
-<font color=#FFFF00 >授予目录 `mysql`用户和`mysql` 组所有权，并适当设置目录权限, <font style="color:#DF2A3F;">**注意**</font> ⚠️ 在该步骤必须确保所需目录已经创建，请参考<a href="#目录规划">目录规划</a> 获取执行一下脚本检查目录</font>
-:::
-```sh 
-for i in binlog data tmp innodb config;do if [[ -d "$i" ]];then echo "Directory exists";else echo "Directory not exists";fi;done
-```
+> [!NOTE]
+> <font color=#FFFF00 >授予目录 `mysql`用户和`mysql` 组所有权，并适当设置目录权限, <font style="color:#DF2A3F;">**注意**</font> ⚠️ 在该步骤必须确保所需目录已经创建，请参考<a href="#目录规划">目录规划</a> 获取执行一下脚本检查目录</font>
+> 
+>> `for i in binlog data tmp innodb config;do if [[ -d "$i" ]];then echo "Directory exists";else echo "Directory not exists";fi;done`
 
 
-#### 7.1 拓展 `mysqld` 数据库初始化过程 <a name="exp"></a>
-一下十几个常用的参数选项
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">拓展 mysqld 数据库初始化过程 </font> </summary>
+
+以下十几个常用的参数选项
 + `--initialize` 生成随机初始 密码
 + `--initialize-insecure`不会`root`生成密码。这是不安全的；假定您打算在将服务器投入生产使用之前及时为帐户分配密码
 + `--user` `mysql`登录帐户所有，这样服务器在稍后运行时才能对其进行读写访问
@@ -517,8 +514,8 @@ for i in binlog data tmp innodb config;do if [[ -d "$i" ]];then echo "Directory 
 
         <font style="color:#DF2A3F;"> [ERROR] --initialize specified but the data directory exists. Aborting.</font> 在这种情况下，请删除或重命名数据目录并重试。
 
-1. 在数据目录中，服务器创建 `mysql`系统模式及其表，包括数据字典表、授权表、时区表和服务器端帮助表。请参见 [第 7.3 节“mysql 系统模式”](https://dev.mysql.com/doc/refman/8.0/en/system-schema.html)。
-2. 服务器初始化 [系统表空间](https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_system_tablespace)和管理`InnoDB`表所需的相关数据结构。  
+2. 在数据目录中，服务器创建 `mysql`系统模式及其表，包括数据字典表、授权表、时区表和服务器端帮助表。请参见 [第 7.3 节“mysql 系统模式”](https://dev.mysql.com/doc/refman/8.0/en/system-schema.html)。
+3. 服务器初始化 [系统表空间](https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_system_tablespace)和管理`InnoDB`表所需的相关数据结构。  
 
 :::info
 
@@ -554,10 +551,20 @@ consider switching off the --initialize-insecure option.
 
 7. 服务器退出。
 
-### 8. 使用`mysqld`执行初始化命令
+</details>
+
+
+
+# 8. 使用`mysqld`执行初始化命令
 此处不需要指定`--basedir` 和`--datadir`因为指定在了server.cnf文件中，所有信息都从这个文件读取配置 [备注: <a href="#conf">server.cnf</a> --> /mnt/mysql/33061/server.cnf]
 
-1. 初始化第一个实例标识为33061
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">初始化第一个实例标识为33061 </font> </summary>
+
+> [!NOTE]
+> <font color=#FFFF00 > 在MySQL初始化过程中会自动生成密码，如上日志显示最后一行则为 `root` 用户生成的密码 `j1ktkTN%8(rl` ,该密码还可以在日志文件中找到  `/va/log/mysql/33061-error.log` </font>
+
     ```sh
     sudo /mnt/mysql/mysql-executable/bin/mysqld --defaults-file=/mnt/mysql/33061/config/server.cnf --initialize --user=mysql
     ```
@@ -577,17 +584,24 @@ consider switching off the --initialize-insecure option.
     2025-03-06T00:17:06.390411Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
     2025-03-06T00:17:06.830164Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: j1ktkTN%8(rl
     ```
-    :::info
-      <font color=#FFFF00 > 在MySQL初始化过程中会自动生成密码，如上日志显示最后一行则为 `root` 用户生成的密码 `j1ktkTN%8(rl` ,该密码还可以在日志文件中找到  `/va/log/mysql/33061-error.log` </font>
-    :::
-2. 初始化第二个实例标识为`33062`，初始化命令如下：
-   
-    ```sh
-    sudo /mnt/mysql/mysql-executable/bin/mysqld --defaults-file=/mnt/mysql/33062/config/server.cnf --initialize --user=mysql
-    ```
-    如果初始化日志中没有出现任何`ERROR`则说明初始化成功，如下所示
-    ```plain
-    sudo cat /var/log/mysql/33062-error.log 
+
+</details>
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">初始化第二个实例标识为33062 </font> </summary>
+
+> [!NOTE]
+> <font color=#FFFF00 > 在MySQL初始化过程中会自动生成密码，如上日志显示最后一行则为 `root` 用户生成的密码 `dKX,Z?L&!3wl` ,该密码还可以在日志文件中找到  `/va/log/mysql/33062-error.log` </font>
+
+
+```sh
+sudo /mnt/mysql/mysql-executable/bin/mysqld --defaults-file=/mnt/mysql/33062/config/server.cnf --initialize --user=mysql
+```
+
+如果初始化日志中没有出现任何`ERROR`则说明初始化成功，如下所示 (Use command `sudo cat /var/log/mysql/33062-error.log`)
+
+```plain 
     2025-03-06T02:56:24.677058Z 0 [Warning] [MY-011068] [Server] The syntax 'skip_slave_start' is deprecated and will be removed in a future release. Please use skip_replica_start instead.
     2025-03-06T02:56:24.677068Z 0 [Warning] [MY-011068] [Server] The syntax 'slave_net_timeout' is deprecated and will be removed in a future release. Please use replica_net_timeout instead.
     2025-03-06T02:56:24.677131Z 0 [Warning] [MY-011070] [Server] 'binlog_format' is deprecated and will be removed in a future release.
@@ -600,21 +614,23 @@ consider switching off the --initialize-insecure option.
     2025-03-06T02:56:24.685538Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
     2025-03-06T02:56:25.504447Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
     2025-03-06T02:56:25.928461Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: dKX,Z?L&!3wl
-    ```
+```
 
-    :::info
-      <font color=#FFFF00 > 在MySQL初始化过程中会自动生成密码，如上日志显示最后一行则为 `root` 用户生成的密码 `dKX,Z?L&!3wl` ,该密码还可以在日志文件中找到  `/va/log/mysql/33062-error.log` </font>
-    :::
+</details>
 
-### 9.使用 systemd 启动服务器
+# 9.配置 systemd 服务
 
 添加一个 `systemd` 服务单元配置文件，其中包含有关 `MySQL` 服务的详细信息。该文件名为 `mysqld-33061.service`，并放置在 中 `/etc/systemd/system/mysqld-33061.service`。其中`mysqld-33061.service`是为来配置多实例区分服务特殊设置名称，如果服务器只需部署一个实例则使用默认的名称例如`mysqld.service`
 
-1. 添加端口实例为`33061`的systemctl 文件命令如下：
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">create mysqld-33061.service  </font> </summary>
    
 ```sh
 sudo vim /etc/systemd/system/mysqld-33061.service
 ```
+
+
 ```plain
 [Unit]
 Description=MySQL Server
@@ -653,7 +669,12 @@ RestartPreventExitStatus=1
 PrivateTmp=false
 ```
 
-1. 添加端口实例为`33062`的systemctl 文件  
+</details>
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">create mysqld-33062.service  </font> </summary>
+
    
 ```sh
 sudo vim /etc/systemd/system/mysqld-33062.service
@@ -696,79 +717,89 @@ RestartPreventExitStatus=1
 PrivateTmp=false
 ```
 
-:::info
-  <font color=#FFFF00 > 
-     重要的上面的起始字符串`ExecStart`被分成两行，以适应本文档的页面宽度。将配置信息复制到文件后，将字符串恢复为一行。此外， 起始字符串`--pid-file`中的设置 `ExecStart`必须 `PIDFile`与其前面的设置相匹配。 配置文件`--pid-file`中指定的选项`my.cnf`将被 `systemd` 忽略。</font><br>
-   <font color=#FFFF00 >
-    特别要注意的是端口标识实例要分开，否则启动报错。</font>
-:::
+</details>
 
-1. 为 systemd tmpfiles功能添加一个配置文件。该文件被命名为 mysql.conf并放置在 中 /usr/lib/tmpfiles.d。
-    ```sh
-    sudo mkdir /etc/systemd/system/tmpfiles.d 
-    sudo vim /etc/systemd/system/tmpfiles.d/mysql-33061.conf
-    ```
-   - 在文件中添加以下配置信息 mysql.conf：
-    ```toml
-    d /mnt/mysql/33061/data 0750 mysql mysql  -
-    ```
-2. 使用`systemctl`命令启动MySQl服务
-    ```sh
-    sudo systemctl daemon-reload && sudo systemctl enable --now  mysqld-33061.service && sudo systemctl status mysqld-33061.service
-    ```
-    :::info
-      <font color=#FFFF00 > 使用`systemctl`命令启动，可以使用 `journalctl`访问。要查看与 mysqld 相关的日志消息，请使用journalctl -u mysqld。某些消息（例如 MySQL 启动消息）可能会打印到 systemd 日志中。
-    有关 systemd 的更多信息，请参阅 使用 systemd 管理 MySQL 服务器。</font>
-    :::
-   -   检查启动服务状态
-    ```sh
-    sudo systemctl status mysqld-33061.service
-    ```
-    如果启动成功则会输出如下状态，否则按照`sudo journalctl -u mysqld-33061.service -f 进行日志排查`
-    ```plain
-    ● mysqld-33061.service - MySQL Server
-        Loaded: loaded (/etc/systemd/system/mysqld-33061.service; enabled; preset: disabled)
-        Active: active (running) since Thu 2025-03-06 09:06:16 CST; 8min ago
-        Docs: man:mysqld(7)
-                http://dev.mysql.com/doc/refman/en/using-systemd.html
-        Process: 3912 ExecStart=/mnt/mysql/mysql-executable/bin/mysqld --defaults-file=/mnt/mysql/33061/config/server.cnf --daemonize --pid-file=/mnt/mysql/33061/mysql.pid $MYSQLD_OPTS (code=exited>
-        Main PID: 3914 (mysqld)
-        Tasks: 45 (limit: 54770)
-        Memory: 743.2M
-            CPU: 6.561s
-        CGroup: /system.slice/mysqld-33061.service
-                └─3914 /mnt/mysql/mysql-executable/bin/mysqld --defaults-file=/mnt/mysql/33061/config/server.cnf --daemonize --pid-file=/mnt/mysql/33061/mysql.pid
+> [!NOTE]
+> <font color=#FFFF00 > 
+> 重要的上面的起始字符串`ExecStart`被分成两行，以适应本文档的页面宽度。将配置信息复制到文件后，将字符串恢复为一行。此外， 起始字符串`--pid-file`中的设置 `ExecStart`必须 `PIDFile`与其前面的设置相匹配。 配置文件`--pid-file`中指定的选项`my.cnf`将被 `systemd` 忽略。</font><br>
+> <font color=#FFFF00 > 特别要注意的是端口标识实例要分开，否则启动报错。</font>
 
-    Mar 06 09:06:16 CloudDB-LllrVWYZvXdzezE3BK9w systemd[1]: Starting MySQL Server...
-    Mar 06 09:06:16 CloudDB-LllrVWYZvXdzezE3BK9w systemd[1]: Started MySQL Server.
-    ```
-### 10. 测试数据库连接和更新root默认密码
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">create systemd tmpfiles  </font> </summary>
+
+为 `systemd tmpfiles`功能添加一个配置文件。该文件被命名为 `mysql-33061.conf`,`mysql-33062.conf`并放置在 中 `/usr/lib/tmpfiles.d`。
+
+```sh
+#创建目录
+sudo mkdir /etc/systemd/system/tmpfiles.d 
+
+#写入33061
+sudo tee -a /etc/systemd/system/tmpfiles.d/mysql-33061.conf <<"ROF"
+d /mnt/mysql/33061/data 0750 mysql mysql  -
+ROF
+
+#写入33062
+sudo tee -a /etc/systemd/system/tmpfiles.d/mysql-33062.conf <<"ROF"
+d /mnt/mysql/33062/data 0750 mysql mysql  -
+ROF
+
+sudo vim /etc/systemd/system/tmpfiles.d/mysql-33061.conf
+sudo vim /etc/systemd/system/tmpfiles.d/mysql-33061.conf
+```
+</details>
+
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">使用systemctl命令启动MySQl服务 </font> </summary>
+
+```sh
+sudo systemctl daemon-reload && sudo systemctl enable --now  mysqld-33061.service && sudo systemctl status mysqld-33061.service
+```
+
+>[!NOTE]
+> <font color=#FFFF00 > 使用`systemctl`命令启动，可以使用 `journalctl`访问。要查看与 mysqld 相关的日志消息，请使用journalctl -u mysqld。某些消息（例如 MySQL 启动消息）可能会打印到 systemd 日志中。有关 systemd 的更多信息，请参阅 使用 systemd 管理 MySQL 服务器。</font>
+
+</details>
+
+
+# 10. 测试数据库连接和更新root默认密码
 
 通过以上操作后，两个实例分别为`33061`,`33062`初始化且服务启动成功，需要为数据库更新`root`密码是操作如下
-:::info
-  <font color=#FFFF00 > 在执行一下命令会用到mysql 这个编译好的二进制文件，此处我添加软连接到 `PATH` 中 `sudo ln -s /mnt/mysql/mysql-executable/bin/mysql_config_editor /usr/local/bin/` 这样就避免使用绝对路径，减少操作 </font>
-  :::
 
-1. 修改实例为`33061`密码
-   - 登录数据库
-    ```sh
-     mysql -uroot -p -S /mnt/mysql/33061/mysql.sock
-    ```
-   - 更新`root`密码 
-    ```sql
-    mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
-    mysql> flush privileges;
-    ```
-2. 修改实例为`33062`密码
-   - 登录数据库
-    ```sh
-     mysql -uroot -p -S /mnt/mysql/33062/mysql.sock
-    ```
-   - 更新`root`密码 
-    ```sql
-    mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
-    mysql> flush privileges;
-    ```
+> [!TIP]
+> <font color=#FFFF00 > 在执行一下命令会用到mysql 这个编译好的二进制文件，此处我添加软连接到 `PATH` 中 `sudo ln -s /mnt/mysql/mysql-executable/bin/mysql_config_editor /usr/local/bin/` 这样就避免使用绝对路径，减少操作 </font>
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">Update the root password for instance 33061</font> </summary>
+
+```sh
+#登录数据库
+mysql -uroot -p -S /mnt/mysql/33061/mysql.sock
+```
+```sql
+-- 更新`root`密码 
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+mysql> flush privileges;
+```
+</details>
+
+
+<details open>
+<summary><font style="font-size: initial;color: antiquewhite">Update the root password for instance 33062</font> </summary>
+
+```sh
+#登录数据库
+mysql -uroot -p -S /mnt/mysql/33062/mysql.sock
+```
+```sql
+-- 更新`root`密码  
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+mysql> flush privileges;
+```
 
     
 mysql_config_editor set --login-path=33062 --host=localhost --user=root --password --port=33062 --socket=/mnt/mysql/33062/mysql.sock

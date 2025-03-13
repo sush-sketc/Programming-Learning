@@ -7,5 +7,5 @@
 /dataSources/
 /dataSources.local.xml
 *.idea
-*.DS*
-*.gitignore
+**/.DS_Store
+**/.gitignore

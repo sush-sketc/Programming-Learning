@@ -17,9 +17,9 @@ vLLM 是一个Python库，它还包含预编译的c++和CUDA(12.1)二进制文�
     </tr>
      <tr>
         <td >192.168.8.102</td>
-        <td rowspan="5">Linux version 5.15.0-134-generic (buildd@lcy02-amd64-081)<br>(gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, <br>GNU ld (GNU Binutils for Ubuntu) 2.38) #145-Ubuntu SMP Wed Feb 12 20:08:39 UTC 2025</td>
-        <td rowspan="5">Python3.10<br>NVIDIA-Linux-x86_64-550.135<br>cuda_12.4.0_550.54.14</td>
-        <td rowspan="5">wget; cmake >=3.26; vim</td>
+        <td rowspan="8">Linux version 5.15.0-134-generic (buildd@lcy02-amd64-081)<br>(gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, <br>GNU ld (GNU Binutils for Ubuntu) 2.38) #145-Ubuntu SMP Wed Feb 12 20:08:39 UTC 2025</td>
+        <td rowspan="8">Python3.10<br>NVIDIA-Linux-x86_64-550.135<br>cuda_12.4.0_550.54.14</td>
+        <td rowspan="8">wget; cmake >=3.26; vim</td>
     </tr>
     <tr>
          <td >192.168.8.113</td>

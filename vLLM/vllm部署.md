@@ -1,7 +1,5 @@
-#  vLLM 安装
+#  RYA vLLM 
 vLLM 是一个Python库，它还包含预编译的c++和CUDA(12.1)二进制文件
-
-==Python==  ==Linux==  ==c++==
 
 ## 2. 安装要求<a name="yq-2025-03"></a>
 
@@ -18,22 +16,34 @@ vLLM 是一个Python库，它还包含预编译的c++和CUDA(12.1)二进制文�
         <th>工具依赖</th>
     </tr>
      <tr>
-        <td >10.37.8.102</td>
+        <td >192.168.8.102</td>
         <td rowspan="5">Linux version 5.15.0-134-generic (buildd@lcy02-amd64-081)<br>(gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, <br>GNU ld (GNU Binutils for Ubuntu) 2.38) #145-Ubuntu SMP Wed Feb 12 20:08:39 UTC 2025</td>
         <td rowspan="5">Python3.10<br>NVIDIA-Linux-x86_64-550.135<br>cuda_12.4.0_550.54.14</td>
         <td rowspan="5">wget; cmake >=3.26; vim</td>
     </tr>
     <tr>
-         <td >10.37.8.103</td>
+         <td >192.168.8.113</td>
     </tr>
        <tr>
-         <td >10.37.8.105</td>
+         <td >192.168.8.115</td>
     </tr>
        <tr>
-         <td >10.37.8.106</td>
+         <td >192.168.8.106</td>
     </tr>
        <tr>
-         <td >10.37.8.107</td>
+         <td >192.168.8.107</td>
+    </tr>
+        </tr>
+       <tr>
+         <td >192.168.8.108</td>
+    </tr>
+        </tr>
+       <tr>
+         <td >192.168.8.109</td>
+    </tr>
+        </tr>
+       <tr>
+         <td >192.168.8.110</td>
     </tr>
 </table>
 
@@ -170,7 +180,7 @@ conda create -n ray-project python=3.10 -y
 #切换到ray-project环境
 conda activate ray-project
 #安装ray相关组件
-pip install -U "ray[default]"
+pip install --default-timeout=100 -U "ray[default]"
 ```
 </details>
 
@@ -179,7 +189,7 @@ pip install -U "ray[default]"
 <summary><font style="font-size: initial;color: bisque">Config RAY Cluster</font> </summary>
 
 > [!NOTE]
->  Head 节点 也就是10.10.37.8.102
+>  Head 节点 也就是10.192.168.8.102
 
 <table>
     <tr>
@@ -188,8 +198,8 @@ pip install -U "ray[default]"
         <th>notes</th>
     </tr>
      <tr>
-        <td >10.37.8.102</td>
-        <td rowspan="5">conda activate ray-project && ray start --disable-usage-stats --head --port=8377  --node-ip-address=10.37.8.102 --num-gpus=8 --dashboard-host=10.37.8.102 --dashboard-port=8378 --metrics-export-port=8379</td>
+        <td >192.168.8.102</td>
+        <td rowspan="5">conda activate ray-project && ray start --disable-usage-stats --head --port=8377  --node-ip-address=192.168.8.102 --num-gpus=48 --dashboard-host=192.168.8.102 --dashboard-port=8378 --metrics-export-port=8379</td>
         <td rowspan="5"> conda 切换到 ray-project 环境执行 ray 命令</td>
     </tr>
     </tr>
@@ -212,7 +222,7 @@ pip install -U "ray[default]"
 
 ```plantuml
 Usage stats collection is disabled.
-Local node IP: 10.37.8.102
+Local node IP: 192.168.8.102
 
 --------------------
 Ray runtime started.
@@ -220,14 +230,14 @@ Ray runtime started.
 
 Next steps
   To add another node to this Ray cluster, run
-    ray start --address='10.37.8.102:8377'              #node也就是work节点加入到当前head cluset中
+    ray start --address='192.168.8.102:8377'              #node也就是work节点加入到当前head cluset中
   
   To connect to this Ray cluster:
     import ray
-    ray.init(_node_ip_address='10.37.8.102')
+    ray.init(_node_ip_address='192.168.8.102')
   
   To submit a Ray job using the Ray Jobs CLI:
-    RAY_ADDRESS='http://10.37.8.102:8378' ray job submit --working-dir . -- python my_script.py
+    RAY_ADDRESS='http://192.168.8.102:8378' ray job submit --working-dir . -- python my_script.py
   
   See https://docs.ray.io/en/latest/cluster/running-applications/job-submission/index.html 
   for more information on submitting Ray jobs to the Ray cluster.
@@ -239,7 +249,7 @@ Next steps
     ray status                                          #输出当前ray cluster 状态
   
   To monitor and debug Ray, view the dashboard at 
-    10.37.8.102:8378                                    #dashboard web页面地址和端口
+    192.168.8.102:8378                                    #dashboard web页面地址和端口
   
   If connection to the dashboard fails, check your firewall settings and network configuration.
 ```
@@ -257,21 +267,21 @@ Next steps
         <th>notes</th>
     </tr>
      <tr>
-        <td >10.37.8.102</td>
-        <td rowspan="5">conda activate ray-project && ray start --address='10.37.8.102:8377' --num-gpus=8 </td>
+        <td >192.168.8.102</td>
+        <td rowspan="5">conda activate ray-project && ray start --address='192.168.8.102:8377' --num-gpus=8 </td>
         <td rowspan="5"> conda 切换到 ray-project 环境执行 ray 命令</td>
     </tr>
     <tr>
-         <td >10.37.8.103</td>
+         <td >192.168.8.103</td>
     </tr>
        <tr>
-         <td >10.37.8.105</td>
+         <td >192.168.8.105</td>
     </tr>
        <tr>
-         <td >10.37.8.106</td>
+         <td >192.168.8.106</td>
     </tr>
        <tr>
-         <td >10.37.8.107</td>
+         <td >192.168.8.107</td>
     </tr>
 </table>
 
@@ -281,13 +291,13 @@ Next steps
 ```
 </details>
 
-每个节点执行命令加入 ray Cluster head(10.37.8.102)
+每个节点执行命令加入 ray Cluster head(192.168.8.102)
 
 <details open>
 <summary><font style="font-size: initial;color: bisque">执行加入 ray cluster 命令后，如果正常则输入一下信息</font> </summary>
 
 ```plantuml
-Local node IP: 10.37.8.103
+Local node IP: 192.168.8.103
 [2025-03-13 13:22:15,992 W 16686 16686] global_state_accessor.cc:429: Retrying to get node with node ID 4a43adca9417e184f0dd7277f886b83a34e1ec0a175e03faa04d94d8
 
 --------------------
@@ -300,7 +310,7 @@ To terminate the Ray runtime, run
 ```
 </details>
 
-如果按照以上操作，在没有任何报错到情况下，那么恭喜您安装`Ray Cluster`集群成功，可以访问http://10.37.8.102:8378 进行操作，或者继续深入研究ray框架官网地址为[RAY](https://docs.ray.io/en/latest/ray-overview/index.html)
+如果按照以上操作，在没有任何报错到情况下，那么恭喜您安装`Ray Cluster`集群成功，可以访问http://192.168.8.102:8378 进行操作，或者继续深入研究ray框架官网地址为[RAY](https://docs.ray.io/en/latest/ray-overview/index.html)
 
 
 ## 3.3 VLLM deploys distributed loads based on ray framework
@@ -316,6 +326,7 @@ conda activate vllm-porject
 ```
 </details>
 
+>
 <details open>
 <summary><font style="font-size: initial;color: bisque">设置环境变量</font> </summary>
 
@@ -343,8 +354,8 @@ TOF
         <th>notes</th>
     </tr>
      <tr>
-        <td >10.37.8.102</td>
-        <td rowspan="5">pip install vllm</td>
+        <td >192.168.8.102</td>
+        <td rowspan="5">pip install vllm --default-timeout=100</td>
         <td rowspan="5"> conda 切换到 vllm-project 环境</td>
     </tr>
     </tr>
@@ -366,6 +377,7 @@ Successfully installed vllm-0.7.3
 
 </details>
 
+```sh
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python3 -m vllm.entrypoints.openai.api_server --model $HOME/lvvm-pkg/DeepSeek-R1 --served-model-name DeepSeek-R1-70B \
   --tensor-parallel-size 8 \
   --trust-remote-code \
@@ -374,12 +386,38 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python3 -m vllm.entrypoints.ope
   --max-model-len 8192 \
   --max-num-batched-tokens 16384 \
   --disable-log-requests \
-  --gpu-memory-utilization 0.6
+  --gpu-memory-utilization 0.95
+```
+或者一下脚本
+```sh
+#! /bin/bash
 
+set -aox
 
+export TORCH_USE_CUDA_DSA=1
+export PYTORCH_CUDA_TORCH_USE_CUDA_DSA=1
+#export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:192
+export PYTORCH_NVML_BASED_CUDA_CHECK=1
+export PYTORCH_NO_CUDA_MEMORY_CACHING=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export CUDA_VISIBLE_DEVICES='[0,1,2,3,4,5,6,7]'
 
+#--tensor-parallel-size 6 \
 
-
+python3.10 -m vllm.entrypoints.openai.api_server \
+--model $HOME/lvvm-pkg/DeepSeek-R1 \
+--uvicorn-log-level debug \
+--served-model-name DeepSeek-R1-70B \
+--trust-remote-code \
+--host 0.0.0.0 \
+--port 9000 \
+--max-model-len 8192 \
+--device cuda \
+--max-num-batched-tokens 16384 \
+--disable-log-requests \
+--gpu-memory-utilization 0.95 \
+--enable-chunked-prefill
+```
 
 ## 3.4 源码构建
 
@@ -428,5 +466,25 @@ pip install -e .  # This may take 5-10 minutes.
 > `ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
 googleapis-common-protos 1.69.1 requires protobuf!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<6.0.0.dev0,>=3.20.2, but you have protobuf 6.30.0 which is incompatible.`
 
+</details>
 
+
+# 问题记录
+
+<details open>
+<summary><font style="font-size: initial;color: bisque"></font> CUDA error: out of memory</summary>
+
+```python
+import torch
+device = torch.device('cuda:0')
+free, total = torch.cuda.mem_get_info(device)
+mem_used_MB = (total - free) / 1024 ** 2
+print(mem_used_MB)
+print ('''
+查看GPU内容使用情况
+''')
+print("torch.cuda.memory_allocated: %fGB"%(torch.cuda.memory_allocated(0)/1024/1024/1024))
+print("torch.cuda.memory_reserved: %fGB"%(torch.cuda.memory_reserved(0)/1024/1024/1024))
+print("torch.cuda.max_memory_reserved: %fGB"%(torch.cuda.max_memory_reserved(0)/1024/1024/1024))
+```
 </details>

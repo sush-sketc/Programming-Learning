@@ -1,5 +1,5 @@
 
-#   Rocky9 源码编译安装MMySQL8
+# Rocky9 源码编译安装MySQL 8
 
 # 1. 环境描述
 
